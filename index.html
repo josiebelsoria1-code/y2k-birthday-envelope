@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 Y2K Happy Birthday Envelope 🎉</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 50%, #ffff00 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial Black', sans-serif;
+            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .envelope {
+            width: 400px;
+            height: 280px;
+            background: linear-gradient(135deg, #ff006e 0%, #8338ec 100%);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 40px rgba(255, 0, 206, 0.6);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            border: 3px solid #00ffff;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 0, 0.1),
+                rgba(255, 255, 0, 0.1) 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            animation: slidePattern 3s linear infinite;
+        }
+
+        @keyframes slidePattern {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(20px); }
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(135deg, #ff006e 0%, #fb5607 100%);
+            border-radius: 20px 20px 0 0;
+            transform-origin: top center;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border-bottom: 2px solid #00ffff;
+        }
+
+        .envelope.opened .envelope-flap {
+            transform: rotateX(-180deg);
+        }
+
+        .card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 90%;
+            background: linear-gradient(135deg, #ffff00 0%, #00ffff 100%);
+            border-radius: 15px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 10;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 3px solid #ff006e;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: none;
+        }
+
+        .envelope.opened .card {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+
+        .card h1 {
+            font-size: 3.5rem;
+            color: #ff006e;
+            text-shadow: 3px 3px 0px #00ffff, 6px 6px 0px #8338ec;
+            animation: bounce 1s ease-in-out infinite;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .card p {
+            font-size: 1.8rem;
+            color: #8338ec;
+            margin: 10px 0;
+            text-shadow: 2px 2px 0px #ffff00;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .card .y2k-text {
+            font-size: 1.2rem;
+            color: #ff006e;
+            margin-top: 15px;
+            font-style: italic;
+            letter-spacing: 2px;
+        }
+
+        /* Balloons */
+        .balloons {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .balloon {
+            position: absolute;
+            width: 50px;
+            height: 70px;
+            border-radius: 50% 50% 50% 45%;
+            opacity: 0.9;
+            animation: float 4s ease-in infinite;
+            box-shadow: inset -2px -2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .balloon::before {
+            content: '';
+            position: absolute;
+            width: 1px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.3);
+            left: 50%;
+            top: 100%;
+            transform: translateX(-50%);
+        }
+
+        .balloon.b1 {
+            background: linear-gradient(135deg, #ff006e, #fb5607);
+            left: 5%;
+            bottom: -70px;
+            animation-delay: 0s;
+            animation-duration: 5s;
+        }
+
+        .balloon.b2 {
+            background: linear-gradient(135deg, #00ffff, #0096ff);
+            left: 20%;
+            bottom: -70px;
+            animation-delay: 0.5s;
+            animation-duration: 6s;
+        }
+
+        .balloon.b3 {
+            background: linear-gradient(135deg, #ffff00, #ffd60a);
+            left: 35%;
+            bottom: -70px;
+            animation-delay: 1s;
+            animation-duration: 7s;
+        }
+
+        .balloon.b4 {
+            background: linear-gradient(135deg, #8338ec, #ff006e);
+            left: 50%;
+            bottom: -70px;
+            animation-delay: 0.7s;
+            animation-duration: 5.5s;
+        }
+
+        .balloon.b5 {
+            background: linear-gradient(135deg, #00ffff, #ffff00);
+            left: 65%;
+            bottom: -70px;
+            animation-delay: 1.2s;
+            animation-duration: 6.5s;
+        }
+
+        .balloon.b6 {
+            background: linear-gradient(135deg, #ff006e, #00ffff);
+            left: 80%;
+            bottom: -70px;
+            animation-delay: 0.3s;
+            animation-duration: 7.5s;
+        }
+
+        .balloon.b7 {
+            background: linear-gradient(135deg, #fb5607, #ffff00);
+            left: 92%;
+            bottom: -70px;
+            animation-delay: 1.5s;
+            animation-duration: 6s;
+        }
+
+        @keyframes float {
+            0% {
+                bottom: -70px;
+                opacity: 0;
+                transform: translateX(0) rotate(0deg);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                bottom: 110vh;
+                opacity: 0;
+                transform: translateX(100px) rotate(360deg);
+            }
+        }
+
+        .instruction {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: #00ffff;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            border: 2px solid #ffff00;
+            text-shadow: 0 0 10px #00ffff;
+            animation: blink 1s ease-in-out infinite;
+            z-index: 100;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+        }
+
+        .opened .confetti {
+            animation: confettiFall 2s ease-in forwards;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="balloons">
+        <div class="balloon b1"></div>
+        <div class="balloon b2"></div>
+        <div class="balloon b3"></div>
+        <div class="balloon b4"></div>
+        <div class="balloon b5"></div>
+        <div class="balloon b6"></div>
+        <div class="balloon b7"></div>
+    </div>
+
+    <div class="container">
+        <div class="envelope" id="envelope">
+            <div class="envelope-flap"></div>
+            <div class="card">
+                <h1>🎉 HAPPY BIRTHDAY 🎉</h1>
+                <p>✨ YOU'RE ABSOLUTELY AMAZING ✨</p>
+                <p class="y2k-text">~ Y2K VIBES ~</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="instruction">
+        💌 Click the envelope to open! 💌
+    </div>
+
+    <script>
+        const envelope = document.getElementById('envelope');
+
+        envelope.addEventListener('click', function() {
+            this.classList.toggle('opened');
+            if (this.classList.contains('opened')) {
+                createConfetti();
+            }
+        });
+
+        function createConfetti() {
+            const colors = ['#ff006e', '#00ffff', '#ffff00', '#8338ec', '#fb5607'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.top = '50%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                document.body.appendChild(confetti);
+
+                setTimeout(() => confetti.remove(), 2000);
+            }
+        }
+    </script>
+</body>
+</html>
